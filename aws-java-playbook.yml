@@ -3,14 +3,14 @@
 - name: Create a sandbox instance
   hosts: localhost
   become: yes
-
-  # vars:
-  #   keypair: zar-key-pem
-  #   instance_type: t2.micro
-  #   security_group: default
-  #   image: my_ami_id
-  #   region: us-east-2
-
+  gather_facts: False
+  vars:
+     keypair: zar-key-pem
+     instance_type: t2.micro
+     security_group: default
+     image: ami-064446ad1d755489e
+     region: us-east-2
+     vps_subnet: vpc-b0d85ddb
   tasks:
     - name: Ensure pip pakage is present
       apt:
@@ -19,14 +19,14 @@
     - name: Ensure boto python package
       pip:
         name: boto
-    - name: Add new aws instance 
+    - name: Launch instance
       amazon.aws.ec2:
-        key_name: zar-key-pem
-        instance_type: t2.micro
-        image: ami-064446ad1d755489e
-        wait: yes
-        group: default
-        count: 2
-        vpc_subnet_id: vpc-b0d85ddb
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
-        region: us-east-2
+      register: ec2
