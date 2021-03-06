@@ -20,6 +20,7 @@
         name: boto
     - name: Launch instance
       amazon.aws.ec2:
+        id: i-0bfb3c86ced3590b4
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
