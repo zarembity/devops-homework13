@@ -1,6 +1,6 @@
 ---
 
-- name: Create a sandbox instance
+- name: Create aws ec2 instances
   hosts: localhost
   gather_facts: False
   vars:
@@ -38,5 +38,13 @@
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
-        groupname: builder
-      loop: "{{ ec2.instances }}"
+        groupname: builders
+
+- name: Builder run
+  hosts: builders
+  become: yes
+  tasks:
+    - name: Ensure default-jdk package is present
+      apt:
+        name: git
+        state: present
