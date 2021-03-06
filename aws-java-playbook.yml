@@ -36,7 +36,7 @@
     - name: Instances ID
       debug:
         msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}"
-      loop: "{{ result.instances }}"
+      loop: "{{ ec2.result }}"
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
