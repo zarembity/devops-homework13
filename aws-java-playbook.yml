@@ -39,7 +39,15 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: builders
+        ansible_ssh_private_key_file: /root/.ssh/zar-key-pem.pem
       loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up builders
+        delegate_to: "{{ item.public_dns_name }}"
+        wait_for_connection:
+          delay: 60
+          timeout: 320
+        loop: "{{ ec2.instances }}"
 
 - name: Builder run
   hosts: builders
