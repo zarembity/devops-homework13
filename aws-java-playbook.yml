@@ -30,9 +30,11 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
+        count: 1
+        count_tag:
+          Name: masterbuilder
+        exact_count: 1
       register: ec2
-      debug:
-        ec2.result
 
     - name: Add new instance to host group
       add_host:
