@@ -33,12 +33,14 @@
         instance_tags:
           name: builder-item
       register: ec2
-
+    - name: Instances ID
+      debug:
+        msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}"
+      loop: "{{ result.instances }}"
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: builders
-        ansible_ssh_private_key_file: /root/.ssh/zar-key-pem.pem
       loop: "{{ ec2.instances }}"
 
 - name: Builder run
