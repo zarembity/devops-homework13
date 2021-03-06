@@ -32,7 +32,7 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
         instance_tags:
-          name: master-builder
+          name: builder-item
       register: ec2
 
     - name: Add new instance to host group
