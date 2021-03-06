@@ -12,6 +12,10 @@
   #   region: us-east-2
 
   tasks:
+    - name: Ensure pip pakage is present
+        apt:
+          name: python-boto3
+          state: present
     - name: Add new aws instance 
       amazon.aws.ec2:
         key_name: zar-key-pem
