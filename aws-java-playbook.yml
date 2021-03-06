@@ -39,6 +39,7 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: builders
+      loop: "{{ ec2.instances }}"
 
 - name: Builder run
   hosts: builders
