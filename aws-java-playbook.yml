@@ -4,12 +4,12 @@
   hosts: localhost
   gather_facts: False
   vars:
-     keypair: zar-key-pem
-     instance_type: t2.micro
-     security_group: default
-     image: ami-08962a4068733a2b6
-     region: us-east-2
-     vps_subnet: subnet-68c8d312
+    keypair: zar-key-pem
+    instance_type: t2.micro
+    security_group: default
+    image: ami-08962a4068733a2b6
+    region: us-east-2
+    vps_subnet: subnet-68c8d312
   tasks:
     - name: Ensure pip pakage is present
       apt:
