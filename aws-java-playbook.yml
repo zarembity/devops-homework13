@@ -14,8 +14,11 @@
   tasks:
     - name: Ensure pip pakage is present
         apt:
-          name: python-boto3
+          name: install python3-pip
           state: present
+    - name: Install boto3 python package
+      pip:
+        name: boto3
     - name: Add new aws instance 
       amazon.aws.ec2:
         key_name: zar-key-pem
