@@ -13,9 +13,9 @@
 
   tasks:
     - name: Ensure pip pakage is present
-        apt:
-          name: install python3-pip
-          state: present
+      apt:
+        name: install python3-pip
+        state: present
     - name: Install boto3 python package
       pip:
         name: boto3
