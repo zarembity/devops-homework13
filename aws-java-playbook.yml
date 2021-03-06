@@ -1,0 +1,24 @@
+---
+
+- name: Create a sandbox instance
+  hosts: localhost
+  become: yes
+
+  # vars:
+  #   keypair: zar-key-pem
+  #   instance_type: t2.micro
+  #   security_group: default
+  #   image: my_ami_id
+  #   region: us-east-2
+
+  tasks:
+    - name: Add new aws instance 
+      amazon.aws.ec2:
+        key_name: zar-key-pem
+        instance_type: t2.micro
+        image: ami-064446ad1d755489e
+        wait: yes
+        group: default
+        count: 2
+        vpc_subnet_id: vpc-b0d85ddb
+        assign_public_ip: yes
