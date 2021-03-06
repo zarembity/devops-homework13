@@ -29,3 +29,4 @@
         count: 2
         vpc_subnet_id: vpc-b0d85ddb
         assign_public_ip: yes
+        region: us-east-2
