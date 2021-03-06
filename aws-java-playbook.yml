@@ -7,7 +7,7 @@
      keypair: zar-key-pem
      instance_type: t2.micro
      security_group: default
-     image: ami-064446ad1d755489e
+     image: ami-08962a4068733a2b6
      region: us-east-2
      vps_subnet: subnet-68c8d312
   tasks:
