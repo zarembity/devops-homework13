@@ -18,8 +18,10 @@
     - name: Ensure boto python package
       pip:
         name: boto
+
     - name: Launch instance
-      amazon.aws.ec2:
+      ec2:
+        id: 1
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
@@ -31,6 +33,9 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
       register: ec2
+      debug:
+        ec2.result
+
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
