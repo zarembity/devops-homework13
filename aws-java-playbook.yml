@@ -20,6 +20,7 @@
         name: boto
     - name: Launch instance
       amazon.aws.ec2:
+        id: i-0385442ecbedea37c
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
@@ -30,10 +31,8 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
-        count: 1
-        count_tag:
-          Name: masterbuilder
-        exact_count: 1
+        instance_tags:
+          name: master-builder
       register: ec2
 
     - name: Add new instance to host group
