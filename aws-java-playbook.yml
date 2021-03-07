@@ -32,7 +32,6 @@
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
-        id: "web-builder"
         group: "{{ security_group }}"
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
@@ -43,7 +42,7 @@
         instance_tags:
           Name: bitem
         count_tag:
-          Name: bitemserv
+          Name: bitem
         exact_count: 1
       register: ec2
 
