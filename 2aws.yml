@@ -1,7 +1,7 @@
 ---
 - name: create aws instance
   hosts: localhost
-  user: anna
+  gather_facts: False
   tasks:
     - name: create key pair
       ec2_key:
