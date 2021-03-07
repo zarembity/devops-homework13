@@ -30,6 +30,8 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
+        instance_tags:
+          db: postgres
         count_tag:
           Name: builderitem
         exact_count: 1
