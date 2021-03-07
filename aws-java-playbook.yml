@@ -57,7 +57,26 @@
   remote_user: ubuntu
   become: yes
   tasks:
+    - name: Ensure default-jdk package is present
+      apt:
+        name: default-jdk
+        state: present
+    - name: Install maven
+      apt:
+        name: maven
+        state: present
     - name: Ensure git package is present
       apt:
         name: git
         state: present
+    - name: Ensure python-lxml package is present
+      apt:
+        name: python-lxml
+        state: present
+    - name: Ensure isset repository
+      git:
+        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        version: master
+        dest: /tmp/hello-app
+    - name: java app package
+      command: mvn -f /tmp/hello-app/pom.xml package
