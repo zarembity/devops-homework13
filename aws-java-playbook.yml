@@ -41,7 +41,6 @@
         assign_public_ip: yes
         instance_tags:
           exersise: '13'
-          Name: "builder"
         count_tag: exersise
         exact_count: 1
       register: ec2
