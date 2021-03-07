@@ -49,11 +49,11 @@
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
-        groupname: builders
+        groupname: javaapp
       loop: "{{ ec2.instances }}"
 
 - name: Builder run
-  hosts: builders
+  hosts: javaapp
   remote_user: ubuntu
   become: yes
   become_user: root
