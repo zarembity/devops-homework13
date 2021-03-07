@@ -41,8 +41,7 @@
         assign_public_ip: yes
         instance_tags:
           Name: builderitem
-        count_tag:
-          Name: builderitem
+        count_tag: Name
       register: ec2
 
     - name: Add new instance to host group
