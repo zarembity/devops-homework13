@@ -30,8 +30,9 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
-        instance_tags:
-          name: builder-item
+        count_tag:
+          Name: builderitem
+        exact_count: 1
       register: ec2
     - name: Add new instance to host group
       add_host:
