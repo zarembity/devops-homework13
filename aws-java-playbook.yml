@@ -20,7 +20,7 @@
         name: boto
     - name: Launch instance
       amazon.aws.ec2:
-        id: i-0bfb3c86ced3590b4
+        id: i-0ed26517e21ffdd6e
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
@@ -34,10 +34,6 @@
         instance_tags:
           name: builder-item
       register: ec2
-    - name: Instances ID
-      debug:
-        msg: "ID: {{ item.instance_id }} - State: {{ item.state.name }} - Public DNS: {{ item.public_dns_name }}"
-      loop: "{{ ec2.result }}"
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
