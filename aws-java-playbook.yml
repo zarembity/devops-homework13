@@ -23,8 +23,8 @@
         name: "{{ keypair }}"
         key_material: "{{ lookup('file', '~/.ssh/my_aws.pub') }}"
         region: "{{ region }}"
-        aws_access_key: "{{ec2_access_key}}"
-        aws_secret_key: "{{ec2_secret_key}}"
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
 
     - name: Launch instance
       amazon.aws.ec2:
@@ -40,6 +40,8 @@
         assign_public_ip: yes
         instance_tags:
           Name: bitem
+        count_tag:
+          Name: bitemserv
         exact_count: 1
       register: ec2
 
