@@ -20,7 +20,6 @@
         name: boto
     - name: Launch instance
       amazon.aws.ec2:
-        id: i-0ed26517e21ffdd6e
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
@@ -38,6 +37,7 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: builders
+        ansible_ssh_private_key_file: ~/.ssh/zar-key-pem.pem
       loop: "{{ ec2.instances }}"
 
 - name: Builder run
