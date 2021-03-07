@@ -18,37 +18,61 @@
     - name: Ensure boto python package
       pip:
         name: boto
-    - name: Launch instance
-      amazon.aws.ec2:
+#    - name: Launch instance
+#      amazon.aws.ec2:
+#        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+#        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+#        key_name: "{{ keypair }}"
+#        group: "{{ security_group }}"
+#        instance_type: "{{ instance_type }}"
+#        image: "{{ image }}"
+#        wait: true
+#        region: "{{ region }}"
+#        vpc_subnet_id: "{{vps_subnet}}"
+#        assign_public_ip: yes
+#        instance_tags:
+#          db: postgres
+#        count_tag:
+#          Name: builderitem
+#        exact_count: 1
+#      register: ec2
+
+    - name: create aws instance
+      ec2:
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         key_name: "{{ keypair }}"
+        region: "{{ region }}"
         group: "{{ security_group }}"
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
-        wait: true
-        region: "{{ region }}"
+        wait: yes
+        count: 1
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
-        instance_tags:
-          db: postgres
-        count_tag:
-          Name: builderitem
-        exact_count: 1
-      register: ec2
-    - name: Add new instance to host group
-      add_host:
-        hostname: "{{ item.public_ip }}"
-        groupname: builders
-        ansible_ssh_private_key_file: ~/.ssh/zar-key-pem.pem
-      loop: "{{ ec2.instances }}"
+      register: output
+    - name: print
+      debug:
+        var: output.instances[0].public_ip
 
-- name: Builder run
-  hosts: builders
-  remote_user: ubuntu
-  become: yes
-  tasks:
-    - name: Ensure git package is present
-      apt:
-        name: git
-        state: present
+    - name: update inventory
+      add_host:
+        name: "{{ output.instances[0].public_ip }}"
+        groups: builders
+
+#    - name: Add new instance to host group
+#      add_host:
+#        hostname: "{{ item.public_ip }}"
+#        groupname: builders
+#        ansible_ssh_private_key_file: ~/.ssh/zar-key-pem.pem
+#      loop: "{{ ec2.instances }}"
+
+#- name: Builder run
+#  hosts: builders
+#  remote_user: ubuntu
+#  become: yes
+#  tasks:
+#    - name: Ensure git package is present
+#      apt:
+#        name: git
+#        state: present
