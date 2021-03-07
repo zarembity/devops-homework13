@@ -40,14 +40,22 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
         instance_tags:
-          Name: builderitem
-        count_tag: Name
+          exersise: '13'
+        count_tag: exersise
+        exact_count: 1
       register: ec2
 
     - name: Add new instance to host group
       add_host:
         name: "{{ ec2.instances[0].public_ip }}"
         groupname: builders
+
+#    - name: Wait for SSH to come up
+#      delegate_to: "{{ ec2.instances[0].public_dns_name }}"
+#      wait_for_connection:
+#        delay: 60
+#        timeout: 320
+#      loop: "{{ ec2.instances }}"
 
 - name: Builder run
   hosts: builders
