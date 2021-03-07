@@ -41,6 +41,7 @@
         assign_public_ip: yes
         instance_tags:
           exersise: '13'
+          Name: builder-wm
         count_tag: exersise
         exact_count: 1
       register: ec2
@@ -49,6 +50,7 @@
       add_host:
         name: "{{ ec2.instances[0].public_ip }}"
         groupname: builders
+      loop: "{{ ec2.instances }}"
 
 - name: Builder run
   hosts: builders
