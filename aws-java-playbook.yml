@@ -41,6 +41,7 @@
         assign_public_ip: yes
         instance_tags:
           exersise: '13'
+          Name: "builder"
         count_tag: exersise
         exact_count: 1
       register: ec2
@@ -50,12 +51,12 @@
         name: "{{ ec2.instances[0].public_ip }}"
         groupname: builders
 
-#    - name: Wait for SSH to come up
-#      delegate_to: "{{ ec2.instances[0].public_dns_name }}"
-#      wait_for_connection:
-#        delay: 60
-#        timeout: 320
-#      loop: "{{ ec2.instances }}"
+    - name: Wait for SSH to come up
+      delegate_to: "{{ ec2.instances[0].public_dns_name }}"
+      wait_for_connection:
+        delay: 120
+        timeout: 320
+      loop: "{{ ec2.instances }}"
 
 - name: Builder run
   hosts: builders
