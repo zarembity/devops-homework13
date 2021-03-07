@@ -48,7 +48,7 @@
 
     - name: Add new instance to host group
       add_host:
-        name: "{{ ec2.instances[0].public_ip }}"
+        hostname: "{{ item.public_ip }}"
         groupname: builders
       loop: "{{ ec2.instances }}"
 
