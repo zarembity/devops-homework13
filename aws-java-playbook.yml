@@ -63,7 +63,7 @@
 
     - name: print
       debug:
-        var: item
+        var: output
     - name: update inventory
       add_host:
         name: "{{ output.instances[0].public_ip }}"
