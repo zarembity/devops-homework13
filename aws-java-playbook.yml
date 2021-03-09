@@ -88,10 +88,6 @@
       apt:
         name: git
         state: present
-    - name: Ensure python-lxml package is present
-      apt:
-        name: python-lxml
-        state: present
     - name: Ensure isset repository
       git:
         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
@@ -101,7 +97,10 @@
       command: mvn -f /tmp/hello-app/pom.xml package
     - name: PUT war to backet
       amazon.aws.aws_s3:
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         bucket: "{{mybaket}}"
         object: /deploy/hello-1.0.war
         src: /tmp/hello-app/target/hello-1.0.war
         mode: put
+      become: yes
