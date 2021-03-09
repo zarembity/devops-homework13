@@ -61,10 +61,23 @@
         exact_count: 1
       register: ec2
 
+    - name: Launch instance
+      ec2_instance:
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: yes
+        region: "{{ region }}"
+        vpc_subnet_id: "{{vps_subnet}}"
+        assign_public_ip: yes
+      register: ec2
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
-        groupname: builders
+        groupname: builder
       loop: "{{ ec2.instances }}"
 
 - name: Builder run
