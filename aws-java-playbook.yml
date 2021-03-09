@@ -10,6 +10,7 @@
     image: ami-08962a4068733a2b6
     region: us-east-2
     vps_subnet: subnet-68c8d312
+    mybaket: mybacket10.test7.com
   tasks:
     - name: Ensure pip pakage is present
       apt:
@@ -98,3 +99,9 @@
         dest: /tmp/hello-app
     - name: java app package
       command: mvn -f /tmp/hello-app/pom.xml package
+    - name: PUT war to backet
+      amazon.aws.aws_s3:
+        bucket: "{{mybaket}}"
+        object: /deploy/hello-1.0.war
+        src: /tmp/hello-app/target/hello-1.0.war
+        mode: put
