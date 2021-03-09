@@ -21,6 +21,8 @@
 
     - name: Create a new EC2 key
       ec2_key:
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         name: "{{ keypair }}"
         region: "{{region}}"
       register: ec2_key_result
