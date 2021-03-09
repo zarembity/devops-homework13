@@ -4,7 +4,7 @@
   hosts: localhost
   gather_facts: False
   vars:
-    keypair: zar-key-pem
+    keypair: mego-secret-key
     instance_type: t2.micro
     security_group: default
     image: ami-08962a4068733a2b6
