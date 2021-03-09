@@ -39,25 +39,6 @@
         region: "{{ region }}"
         key_material: "{{ lookup('file', '/root/.ssh/ava_rsa.pub') }}"
 
-#    - name: Save private key
-#      copy: content="{{ ec2_key_result.key.private_key }}" dest="/root/.ssh/id_rsa" mode=0600
-#      when: ec2_key_result.changed
-
-#    - name: Save private key
-#      copy:
-#        content: "{{ ec2_key_result.key.private_key }}"
-#        dest: "./ssh/zar-key-pem.pem"
-#        mode: 0400
-#      when: ec2_key_result.changed
-
-#    - name: Upload public key to AWS
-#      amazon.aws.ec2_key:
-#        name: "{{ keypair }}"
-#        key_material: "{{ lookup('file', '~/.ssh/my_aws.pub') }}"
-#        region: "{{ region }}"
-#        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
-#        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
-
     - name: Launch instance
       amazon.aws.ec2:
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
@@ -91,10 +72,13 @@
   become: yes
   become_user: root
   tasks:
+    - name: Apt Update
+      package
     - name: Ensure default-jdk package is present
       apt:
         name: default-jdk
         state: present
+        update_cache: yes
     - name: Install maven
       apt:
         name: maven
