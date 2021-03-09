@@ -64,11 +64,18 @@
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
-        groupname: javaapp
+        groupname: builders
+      loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up
+      delegate_to: "{{ item.public_dns_name }}"
+      wait_for_connection:
+        delay: 60
+        timeout: 320
       loop: "{{ ec2.instances }}"
 
 - name: Builder run
-  hosts: javaapp
+  hosts: builders
   remote_user: ubuntu
   become: yes
   become_user: root
