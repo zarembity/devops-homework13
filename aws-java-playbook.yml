@@ -106,9 +106,12 @@
       apt:
         update_cache: yes
     - name: Ensure pip pakage is present
+      apt:
+        name: python3-pip
+        state: present
+    - name: Ensure pip pakage is present
       pip:
         name:
-          - docker-py
           - boto3
     - name: Ensure default-jdk package is present
       apt:
@@ -151,9 +154,12 @@
       apt:
         update_cache: yes
     - name: Ensure pip pakage is present
+      apt:
+        name: python3-pip
+        state: present
+    - name: Ensure pip pakage is present
       pip:
         name:
-          - docker-py
           - boto3
     - name: Ensure tomcat9 package is present
       apt:
