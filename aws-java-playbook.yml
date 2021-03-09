@@ -55,7 +55,7 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
         instance_tags:
-          exersise: 'homework13'
+          exersise: "homework13"
           Name: builder-vm
         count_tag: exersise
         exact_count: 1
