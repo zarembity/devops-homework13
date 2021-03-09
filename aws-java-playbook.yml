@@ -19,13 +19,25 @@
       pip:
         name: boto
 
-    - name: Upload public key to AWS
-      amazon.aws.ec2_key:
+    - name: Create a new EC2 key
+      ec2_key:
         name: "{{ keypair }}"
-        key_material: "{{ lookup('file', '~/.ssh/my_aws.pub') }}"
-        region: "{{ region }}"
-        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
-        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+      register: ec2_key_result
+
+    - name: Save private key
+        copy:
+          content: "{{ ec2_key_result.key.private_key }}"
+          dest: "./aws.pem"
+          mode: 0400
+        when: ec2_key_result.changed
+
+#    - name: Upload public key to AWS
+#      amazon.aws.ec2_key:
+#        name: "{{ keypair }}"
+#        key_material: "{{ lookup('file', '~/.ssh/my_aws.pub') }}"
+#        region: "{{ region }}"
+#        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+#        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
 
     - name: Launch instance
       amazon.aws.ec2:
