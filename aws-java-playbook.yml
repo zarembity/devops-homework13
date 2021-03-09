@@ -34,7 +34,7 @@
     - name: Save private key
       copy:
         content: "{{ ec2_key_result.key.private_key }}"
-        dest: "./ssh/zar-key-pem"
+        dest: "./ssh/zar-key-pem.pem"
         mode: 0400
       when: ec2_key_result.changed
 
