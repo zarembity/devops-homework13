@@ -72,13 +72,13 @@
   become: yes
   become_user: root
   tasks:
-    - name: Apt Update
-      package
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt:
+        update_cache: yes
     - name: Ensure default-jdk package is present
       apt:
         name: default-jdk
         state: present
-        update_cache: yes
     - name: Install maven
       apt:
         name: maven
