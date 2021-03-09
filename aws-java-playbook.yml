@@ -72,6 +72,8 @@
   remote_user: ubuntu
   become: yes
   become_user: root
+  vars:
+    mybaket: mybacket10.test7.com
   tasks:
     - name: Run the equivalent of "apt-get update" as a separate step
       apt:
