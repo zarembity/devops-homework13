@@ -138,3 +138,32 @@
         src: /tmp/hello-app/target/hello-1.0.war
         mode: put
       become: yes
+
+- name: Deploy run
+  hosts: deploygroup
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  vars:
+    mybaket: mybacket10.test7.com
+  tasks:
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt:
+        update_cache: yes
+    - name: Ensure tomcat9 package is present
+      apt:
+        name: tomcat9
+        state: present
+    - name: Ensure working tomcat
+      service:
+        name: tomcat9
+        state: started
+    - name: Copy from s3
+      aws_s3:
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
+        bucket: "{{ mybaket }}"
+        object: "/deploy/hello-1.0.war"
+        dest: "/var/lib/tomcat9/webapps"
+        mode: get
+        overwrite: yes
