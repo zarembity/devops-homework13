@@ -55,7 +55,7 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
         instance_tags:
-          exersise: "homework13"
+          exersise: "homework-13"
           Name: builder-vm
         count_tag: exersise
         exact_count: 1
@@ -63,7 +63,7 @@
 
     - name: print
       debug:
-        var: output.instances[0].public_ip
+        var: item
     - name: update inventory
       add_host:
         name: "{{ output.instances[0].public_ip }}"
