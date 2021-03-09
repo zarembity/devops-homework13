@@ -80,9 +80,9 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
         instance_tags:
-          exersise: "homework-13-2"
+          exersise2: "homework-13-2"
           Name: deployer-vm
-        count_tag: exersise
+        count_tag: exersise2
         exact_count: 1
       register: output2
 
