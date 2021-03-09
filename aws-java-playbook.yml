@@ -150,6 +150,11 @@
     - name: Run the equivalent of "apt-get update" as a separate step
       apt:
         update_cache: yes
+    - name: Ensure pip pakage is present
+      pip:
+        name:
+          - docker-py
+          - boto3
     - name: Ensure tomcat9 package is present
       apt:
         name: tomcat9
