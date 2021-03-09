@@ -67,6 +67,7 @@
         name: "{{ output.tagged_instances[0].public_ip }}"
         groups: amazon
 
+    #todo use tags to delete duplicate
     - name: Launch instance deploy
       amazon.aws.ec2:
         aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
@@ -150,7 +151,7 @@
   vars:
     mybaket: mybacket10.test7.com
   tasks:
-    - name: Run the equivalent of "apt-get update" as a separate step
+    - name: Run "apt get update"
       apt:
         update_cache: yes
     - name: Ensure pip pakage is present
@@ -175,6 +176,6 @@
         aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
         bucket: "{{ mybaket }}"
         object: "/deploy/hello-1.0.war"
-        dest: "/var/lib/tomcat9/webapps"
+        dest: "/var/lib/tomcat9/webapps/hello-1.0.war"
         mode: get
         overwrite: yes
