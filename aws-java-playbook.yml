@@ -55,56 +55,46 @@
         vpc_subnet_id: "{{vps_subnet}}"
         assign_public_ip: yes
         instance_tags:
-          exersise: '13'
-          Name: builder-wm
+          exersise: 'homework13'
+          Name: builder-vm
         count_tag: exersise
         exact_count: 1
-      register: ec2
+      register: output
 
-    - name: Launch instance
-      ec2_instance:
-        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
-        aws_secret_key: "{{ lookup('env', 'AWS_ACCESS_KEY') }}"
-        key_name: "{{ keypair }}"
-        group: "{{ security_group }}"
-        instance_type: "{{ instance_type }}"
-        image: "{{ image }}"
-        wait: yes
-        region: "{{ region }}"
-        vpc_subnet_id: "{{vps_subnet}}"
-        assign_public_ip: yes
-      register: ec2
-    - name: Add new instance to host group
+    - name: print
+      debug:
+        var: output.instances[0].public_ip
+    - name: update inventory
       add_host:
-        hostname: "{{ item.public_ip }}"
-        groupname: builder
-      loop: "{{ ec2.instances }}"
+        name: "{{ output.instances[0].public_ip }}"
+        groups: amazon
 
 - name: Builder run
-  hosts: builders
+  hosts: amazon
   remote_user: ubuntu
   become: yes
+  become_user: root
   tasks:
     - name: Ensure default-jdk package is present
       apt:
         name: default-jdk
         state: present
-#    - name: Install maven
-#      apt:
-#        name: maven
-#        state: present
-#    - name: Ensure git package is present
-#      apt:
-#        name: git
-#        state: present
-#    - name: Ensure python-lxml package is present
-#      apt:
-#        name: python-lxml
-#        state: present
-#    - name: Ensure isset repository
-#      git:
-#        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-#        version: master
-#        dest: /tmp/hello-app
-#    - name: java app package
-#      command: mvn -f /tmp/hello-app/pom.xml package
+    - name: Install maven
+      apt:
+        name: maven
+        state: present
+    - name: Ensure git package is present
+      apt:
+        name: git
+        state: present
+    - name: Ensure python-lxml package is present
+      apt:
+        name: python-lxml
+        state: present
+    - name: Ensure isset repository
+      git:
+        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        version: master
+        dest: /tmp/hello-app
+    - name: java app package
+      command: mvn -f /tmp/hello-app/pom.xml package
