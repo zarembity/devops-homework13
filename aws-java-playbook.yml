@@ -4,7 +4,7 @@
   hosts: localhost
   gather_facts: False
   vars:
-    keypair: mego-secret-key
+    keypair: mego-secret-key2
     instance_type: t2.micro
     security_group: default
     image: ami-08962a4068733a2b6
@@ -32,7 +32,7 @@
         var: ec2_key_result
 
     - name: Save private key
-      copy: content="{{ ec2_key_result.key.private_key }}" dest=".ssh/id_rsa" mode=0600
+      copy: content="{{ ec2_key_result.key.private_key }}" dest="./ssh/id_rsa" mode=0600
       when: ec2_key_result.changed
 
 #    - name: Save private key
